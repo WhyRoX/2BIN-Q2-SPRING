@@ -1,9 +1,7 @@
 package be.vinci.cae.fiche2.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,10 +24,22 @@ public class Drink {
 
     private Boolean alcoholic;
 
+    @ManyToOne
+    @JsonBackReference
+    private FoodTruck foodTruck;
+
     public Drink(String name, String description, float price, boolean alcoholic) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.alcoholic = alcoholic;
+    }
+
+    public Drink(String name, String description, float price, boolean alcoholic, FoodTruck foodTruck) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.alcoholic = alcoholic;
+        this.foodTruck = foodTruck;
     }
 }

@@ -5,6 +5,7 @@ import be.vinci.cae.fiche2.repositories.DrinksRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DrinksService {
@@ -29,6 +30,20 @@ public class DrinksService {
 
     public void deleteDrink(long id) {
         drinksRepository.deleteById(id);
+    }
+
+    public Drink updateDrink(long id, Drink drink) {
+        Optional<Drink> existingDrink = drinksRepository.findById(id);
+        if (existingDrink.isPresent()) {
+            Drink updatedDrink = existingDrink.get();
+            updatedDrink.setName(drink.getName());
+            updatedDrink.setDescription(drink.getDescription());
+            updatedDrink.setPrice(drink.getPrice());
+            updatedDrink.setAlcoholic(drink.getAlcoholic());
+            return drinksRepository.save(updatedDrink);
+        } else {
+            return drinksRepository.save(drink);
+        }
     }
 
 }
